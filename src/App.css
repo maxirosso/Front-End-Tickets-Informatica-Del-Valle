@@ -1,0 +1,56 @@
+
+/* Center the content within the app */
+.App {
+  background-color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Center and style the header */
+.App-header {
+  background-color: #282c34;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: white;
+}
+
+h1 {
+  font-size: calc(16px + 2vmin);
+  margin-bottom: 20px;
+  color: blue;
+}
+
+/* Style for the logo animation */
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* Keyframe for rotating logo */
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

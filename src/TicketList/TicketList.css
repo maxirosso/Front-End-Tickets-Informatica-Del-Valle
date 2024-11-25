@@ -1,0 +1,400 @@
+/* Container for the ticket list */
+.ticket-list-container {
+    width: 100%;
+    max-width: 900px; /* Increased width for better content alignment */
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative; /* Position context for the username and logout */
+}
+
+/* Title styling */
+.ticket-list-title {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 25px; /* Increased space */
+    color: #333;
+}
+
+/* Response message styling */
+.response-message {
+    text-align: center;
+    font-size: 14px;
+    color: green;
+    margin-bottom: 25px; /* Increased space */
+}
+
+.response-message.error {
+    color: red;
+}
+
+/* Styling for each individual ticket */
+.ticket-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Rounded corners for modern look */
+    padding: 20px; /* Slightly larger padding for better spacing */
+    margin-bottom: 18px; /* Larger spacing between tickets */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ticket-item:hover {
+    transform: translateY(-4px); /* Slightly higher elevation on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Title and sender information */
+.ticket-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ticket-subject {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    word-break: break-word; /* Ensure long subjects break to next line */
+}
+
+.ticket-sender {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Date and content styling */
+.ticket-date {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 6px;
+}
+
+/* Ticket content container adjustments */
+.ticket-content {
+    white-space: pre-wrap;
+    padding: 4px 8px; /* Reduced padding for more compact look */
+    margin: 0; /* Reset margin to avoid extra spacing */
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    line-height: 1.4; /* Slightly increased line height for readability */
+    font-size: 12px;
+}
+
+/* Remove any extra margins on paragraph elements */
+.ticket-content p {
+    margin: 0; /* Remove the default margin */
+    padding: 0; /* Remove any internal padding */
+}
+
+/* Remove additional spacing between paragraphs */
+.ticket-content p + p {
+    margin-top: 0; /* Remove space between paragraphs */
+}
+
+/* Optional: Make sure there are no extra spaces at the end */
+.ticket-content p:last-child {
+    margin-bottom: 0; /* Ensure no margin at the bottom of the last paragraph */
+}
+
+/* Optional: You can adjust line height for readability */
+.ticket-content {
+    line-height: 1.5; /* Adjust line height for better readability if needed */
+}
+
+/* Handle images within ticket content */
+.ticket-content img {
+    max-width: 100%; /* Make sure images don't exceed the container's width */
+    height: auto;
+    border-radius: 8px; /* Rounded corners for images */
+    display: block;
+    margin-top: 12px;
+}
+
+/* Reply section styling */
+.reply-input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    resize: vertical;
+    box-sizing: border-box;
+    background-color: #fafafa; /* Slightly lighter background for input */
+}
+
+.reply-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Reply button styling */
+.reply-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px; /* Same border radius as delete button */
+    font-size: 14px;
+    margin-top: 12px;
+    margin-right: 8px; /* Added margin to create space between buttons */
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.reply-button:hover {
+    background-color: #0056b3;
+}
+
+.reply-button:focus {
+    outline: none;
+}
+
+/* Delete button styling */
+.delete-button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 12px 16px; /* Same padding as reply button */
+    border: none;
+    border-radius: 6px; /* Same border radius as reply button */
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* History button styling */
+.history-button {
+    background-color: #f39c12;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background-color 0.2s;
+}
+
+.history-button:hover {
+    background-color: #e67e22;
+}
+
+.history-button:focus {
+    outline: none;
+}
+
+/* Styling for expanded history section */
+.ticket-history {
+    margin-top: 12px;
+    padding: 12px;
+    background-color: #fafafa;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.history-item {
+    margin-bottom: 12px;
+}
+
+.history-item p {
+    margin: 0;
+    font-size: 12px;
+    color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ticket-list-container {
+        padding: 18px;
+        max-width: 95%; /* Use full width on smaller screens */
+    }
+
+    .ticket-item {
+        padding: 16px;
+    }
+
+    .ticket-subject {
+        font-size: 18px;
+    }
+
+    .ticket-content {
+        font-size: 13px;
+    }
+
+    .reply-input {
+        font-size: 13px;
+    }
+
+    .reply-button {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .history-button {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ticket-list-container {
+        padding: 15px;
+    }
+
+    .ticket-item {
+        padding: 14px;
+    }
+
+    .ticket-subject {
+        font-size: 16px;
+    }
+
+    .ticket-content {
+        font-size: 12px;
+    }
+
+    .reply-input {
+        font-size: 12px;
+    }
+
+    .reply-button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .history-button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Styling for the username and logout button */
+.username-logout {
+    position: absolute; /* Position it in the top right corner */
+    top: 10px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.username-logout .username {
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.username-logout .logout-button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.username-logout .logout-button:hover {
+    background-color: #c0392b;
+}
+
+.username-logout .logout-button:focus {
+    outline: none;
+}
+
+/* Ensure the username and logout button are on the top right of the ticket list container */
+.ticket-list-container .username-logout {
+    top: 10px;
+    right: 20px;
+}
+
+/* Container for the email and status */
+.ticket-info-container {
+    display: flex;
+    flex-direction: column; /* Stack the email and status vertically */
+    gap: 10px; /* Space between email and status */
+    margin-bottom: 20px; /* Space below the ticket info container */
+}
+
+/* Styling for the email field */
+.ticket-email {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Styling for the ticket status dropdown */
+.ticket-status-dropdown {
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Styling for ticket statuses */
+.ticket-status-dropdown option {
+    padding: 8px;
+    font-size: 14px;
+}
+
+/* Status color customization */
+.ticket-status-dropdown option[value="Resuelto"] {
+    background-color: #28a745; /* Green for Resolved */
+    color: white;
+}
+
+.ticket-status-dropdown option[value="En Proceso"] {
+    background-color: darkorange; /* Yellow for In Progress */
+    color: black;
+}
+
+.ticket-status-dropdown option[value="Pendiente"] {
+    background-color: #e74c3c; /* Red for Pending */
+    color: white;
+}
+
+select {
+    appearance: none; /* Remove default styling */
+    background-color: #f9f9f9; /* Light background for the dropdown */
+    color: #333; /* Neutral text color */
+    border: 1px solid #ddd; /* Soft border */
+    border-radius: 6px; /* Smooth edges */
+    padding: 8px 12px; /* Comfortable padding */
+    font-size: 14px; /* Readable font size */
+    font-family: 'Arial', sans-serif; /* Clean font family */
+    cursor: pointer; /* Pointer cursor for better UX */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: all 0.3s ease; /* Smooth animations */
+}
+
+select:hover {
+    border-color: #007bff; /* Highlight border on hover */
+    box-shadow: 0 3px 8px rgba(0, 123, 255, 0.3); /* Subtle blue glow */
+}
+
+select:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #0056b3; /* Darker blue border for focus */
+    box-shadow: 0 0 4px rgba(0, 86, 179, 0.8); /* Focus glow */
+}
+
+option {
+    color: #333; /* Neutral text color */
+    background-color: #fff; /* White background */
+    padding: 5px; /* Optional padding for dropdown items */
+}
