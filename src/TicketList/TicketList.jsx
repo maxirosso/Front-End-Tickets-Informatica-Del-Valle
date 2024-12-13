@@ -59,77 +59,86 @@ const TicketList = () => {
         }));
     };
 
-    const handleReplySubmit = async (ticketId, inReplyTo) => {
-        // Obtén el mensaje de respuesta desde el estado
-        const message = replyMessage[ticketId];
-        if (!message) {
+    const handleReplySubmit = async (ticketId, currentStatus) => {
+        const replyText = replyMessage[ticketId];
+        if (!replyText) {
             setResponseMessage("El mensaje no puede estar vacío.");
             return;
         }
     
-        // Obtén el token del almacenamiento local
         const token = localStorage.getItem("token");
         if (!token) {
             setResponseMessage("No estás autenticado. Por favor, inicia sesión.");
             return;
         }
     
-        // Busca el ticket correspondiente
-        const ticket = tickets.find(t => t._id === ticketId);
-        if (!ticket) {
-            setResponseMessage("El ticket no fue encontrado.");
-            return;
-        }
-    
-        // Asegúrate de que el historial existe y es un array
-        if (!ticket.history || !Array.isArray(ticket.history)) {
-            ticket.history = [];
-        }
-    
-        // Crea un ID único para el mensaje de respuesta
-        const messageId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const messageId = `reply-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
         try {
-            // Realiza la solicitud al backend
-            const response = await fetch(`http://localhost:5000/tickets/${ticketId}/reply`, {
-                method: 'PUT',
+            const response = await fetch(`http://localhost:5000/tickets/reply`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    replyMessage: message, // Contenido de la respuesta
-                    inReplyTo: inReplyTo,  // ID del mensaje al que estás respondiendo
-                    references: inReplyTo ? [inReplyTo] : [], // IDs para mantener la conversación
-                    messageId: messageId, // ID único del mensaje
+                    ticketId: ticketId,
+                    replyMessage: replyText,
+                    messageId: messageId,
+                    status: currentStatus
                 }),
             });
     
             if (response.ok) {
-                // Actualiza el estado del ticket con los datos del servidor
+                
                 const updatedTicket = await response.json();
+                // Log the updated content and the original content
+            console.log("Updated Ticket Content:", updatedTicket.content); // New content from server response
+            const ticket = tickets.find(t => t._id === ticketId);  // Find the original ticket in state
+            console.log("Original Ticket Content:", ticket ? ticket.content : "Ticket not found"); // Original content from state
+    
+                console.log("Server Response - Updated Ticket:", updatedTicket); // Log the full response
     
                 setResponseMessage("Respuesta enviada correctamente.");
-                setReplyMessage(prev => ({ ...prev, [ticketId]: "" })); // Limpia el input de respuesta
-                setTickets(prevTickets =>
-                    prevTickets.map(ticket =>
-                        ticket._id === ticketId ? updatedTicket : ticket
-                    )
-                );
+                setReplyMessage(prev => ({ ...prev, [ticketId]: "" }));
+    
+                // Update the tickets state while preserving original content and history
+                setTickets(prevTickets => {
+                    console.log("Tickets before update:", prevTickets); // Log tickets before update
+                    return prevTickets.map(ticket => {
+                        if (ticket._id === updatedTicket._id) {
+                            return {
+                                ...ticket,
+                                // Preserve the original content; don't update it unless needed
+                                
+                                // Ensure the history is updated (new replies added)
+                                history: updatedTicket.history,
+                                status: updatedTicket.status,
+                                date: updatedTicket.date,
+                                messageId: updatedTicket.messageId,
+                                references: updatedTicket.references,
+                            };
+                        }
+                        return ticket;
+                    });
+                });
+    
             } else {
-                // Maneja errores del servidor
                 const errorData = await response.json();
                 setResponseMessage(`Error al enviar la respuesta: ${errorData.message}`);
+                console.error("Error Response:", errorData);
             }
         } catch (err) {
-            // Maneja errores de red o código
             setResponseMessage(`Error al procesar la solicitud: ${err.message}`);
+            console.error("Error Processing Reply:", err);
         }
     };
     
     
-
-    const handleDeleteTicket = async (ticketId) => {
+    
+    
+    
+     const handleDeleteTicket = async (ticketId) => {
         const token = localStorage.getItem("token");
 
         try {
@@ -312,16 +321,28 @@ const TicketList = () => {
                             </button>
                         )}
 
-                        {expandedHistory[ticket._id] && (
-                            <div className="ticket-history">
-                                {expandedHistory[ticket._id].map((historyItem, index) => (
-                                    <div key={index} className="history-item">
-                                        <p>{new Date(historyItem.date).toLocaleString()}</p>
-                                        <p>{historyItem.content}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                                    {expandedHistory[ticket._id] && (
+                                        <div className="ticket-history">
+                                            {expandedHistory[ticket._id].map((historyItem, index) => (
+                                                <div key={index} className="history-item">
+                                                    <div className="history-header">
+                                                        {/* Display sender's email dynamically */}
+                                                        <span className="history-sender">
+                                                            {historyItem.sender === "System" 
+                                                                ? "informatica@delvalle.com.ar" // Set to your email if it's "system"
+                                                                : historyItem.sender}
+                                                        </span>
+                                                        {/* Display history date */}
+                                                        <span className="history-date">{new Date(historyItem.date).toLocaleString()}</span>
+                                                    </div>
+                                                    <p className="history-content">{historyItem.content}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+
+
 
                         <textarea
                             className="reply-input"

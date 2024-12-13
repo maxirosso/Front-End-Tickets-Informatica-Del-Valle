@@ -31,7 +31,7 @@ function App() {
         {isAuthenticated && (
           <button
             onClick={handleLogout}
-            className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg"
+            className="logout-button"
           >
             Cerrar Sesion
           </button>
