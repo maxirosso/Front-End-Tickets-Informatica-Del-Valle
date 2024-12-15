@@ -104,24 +104,23 @@ const TicketList = () => {
     
                 // Update the tickets state while preserving original content and history
                 setTickets(prevTickets => {
-                    console.log("Tickets before update:", prevTickets); // Log tickets before update
                     return prevTickets.map(ticket => {
                         if (ticket._id === updatedTicket._id) {
                             return {
                                 ...ticket,
-                                // Preserve the original content; don't update it unless needed
-                                
-                                // Ensure the history is updated (new replies added)
                                 history: updatedTicket.history,
                                 status: updatedTicket.status,
                                 date: updatedTicket.date,
                                 messageId: updatedTicket.messageId,
                                 references: updatedTicket.references,
+                                // Preserve the original content
+                                content: ticket.content,
                             };
                         }
                         return ticket;
                     });
                 });
+                
     
             } else {
                 const errorData = await response.json();
